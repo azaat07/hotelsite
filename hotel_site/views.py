@@ -1,5 +1,9 @@
 from rest_framework import viewsets, permissions, generics, status
 from .models import *
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters import HotelFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
+
 
 
 class UserProfileViewSet(viewsets.ModelViewSet):
@@ -7,9 +11,18 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     serializer_class = UserProfileSerializer
 
 
-class HotelViewSet(viewsets.ModelViewSet):
+class HotelListViewSet(viewsets.ModelViewSet):
     queryset = Hotel.objects.all()
-    serializer_class = HoterSerializer
+    serializer_class = HotelListSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_class = HotelFilter
+    search_fields = ['name_hotel']
+    ordering_fields = ['price_per_night']
+
+
+class HotelDetailViewSet(viewsets.ModelViewSet):
+    queryset = Hotel.objects.all()
+    serializer_class = HotelDetailSerializer
 
 
 class HotelImageViewSet(viewsets.ModelViewSet):
@@ -30,3 +43,13 @@ class ImageRoomViewSet(viewsets.ModelViewSet):
 class BookingViewSet(viewsets.ModelViewSet):
     queryset = Booking.objects.all()
     serializer_class = HoterSerializer
+
+
+class RatingViewSet(viewsets.ModelViewSet):
+    queryset = Rating.objects.all()
+    serializer_class = RatingSerializer
+
+
+class ReviewViewSet(viewsets.ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer

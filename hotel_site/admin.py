@@ -8,4 +8,6 @@ admin.site.register(HotelImage)
 admin.site.register(Room)
 admin.site.register(ImageRoom)
 admin.site.register(Booking)
+admin.site.register(Rating)
+admin.site.register(Review)
 

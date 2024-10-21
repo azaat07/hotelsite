@@ -63,3 +63,23 @@ class Booking(models.Model):
         ('Занят', 'Занят')
     )
     status = models.CharField(max_length=16, choices=STATUS_CHOICES)
+
+
+class Rating(models.Model):
+    hotel_rating = models.ForeignKey(Hotel, related_name='ratings', on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    stars = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], verbose_name='Рейтинг')
+
+    def __str__(self):
+        return f'{self.hotel_rating} - {self.user} - {self.stars} stars'
+
+
+class Review(models.Model):
+    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    text = models.TextField()
+    hotel_review = models.ForeignKey(Hotel, related_name='reviews', on_delete=models.CASCADE)
+    parent_review = models.ForeignKey('self', related_name='replies', null=True, blank=True, on_delete=models.CASCADE)
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.author} - {self.hotel_review}'
