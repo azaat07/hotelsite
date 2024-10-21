@@ -8,16 +8,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class HotelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Hotel
-        fields = '__all__'
-
-
-class HotelImageModelSerializer(serializers.ModelSerializer):
+class HotelImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = HotelImage
-        fields = '__all__'
+        fields = ['hotel_image']
 
 
 class RoomSerializer(serializers.ModelSerializer):
@@ -51,13 +45,15 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 
 class HotelListSerializer(serializers.ModelSerializer):
+    hotel_images = HotelImageSerializer(many=True, read_only=True)
     class Meta:
-        model = Car
-        fields = ['id', 'hotel_name', 'hotel_image', 'description', 'address', 'city', 'country']
+        model = Hotel
+        fields = ['id', 'name_hotel', 'hotel_images', 'description', 'address', 'city', 'country']
 
 
 class HotelDetailSerializer(serializers.ModelSerializer):
+    hotel_image = HotelImageSerializer()
     class Meta:
-        model = Car
-        fields = ['hotel_name', 'hotel_image', 'room', 'image_room', 'description', 'address', 'city', 'country']
+        model = Hotel
+        fields = ['hotel_name', 'hotel_image', 'room', 'image_room/', 'description', 'address', 'city', 'country']
 

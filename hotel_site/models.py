@@ -25,13 +25,14 @@ class Hotel(models.Model):
     address = models.CharField(max_length=32)
     city = models.CharField(max_length=32)
     country = models.CharField(max_length=32)
+#    hotel_video = models.FileField(verbose_name='видео', null=True, blank=True)
 
     def str(self):
         return f'{self.name_hotel} - {self.country}'
 
 
 class HotelImage(models.Model):
-    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
+    hotel = models.ForeignKey(Hotel, related_name='hotel', on_delete=models.CASCADE)
     hotel_image = models.ImageField(upload_to='hotel_images/')
 
 
@@ -46,7 +47,7 @@ class Room(models.Model):
 
 
 class ImageRoom(models.Model):
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, related_name='room', on_delete=models.CASCADE)
     room_image = models.ImageField(upload_to='room_images/')
 
 

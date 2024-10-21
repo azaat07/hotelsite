@@ -4,11 +4,9 @@ from .models import *
 
 class HotelFilter(FilterSet):
     class Meta:
-        model = '__all__'
+        model = Hotel
         fields = {
             'name_hotel': ['exact'],
             'country': ['exact'],
             'address': ['exact'],
-            'active': ['exact'],
-            '': ['gt', 'lt']
         }
