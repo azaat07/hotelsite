@@ -1,5 +1,4 @@
-from rest_framework import viewsets, permissions, generics, status
-from .models import *
+from rest_framework import viewsets, permissions
 from .serializers import *
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import HotelFilter
@@ -18,6 +17,7 @@ class HotelListViewSet(viewsets.ModelViewSet):
     filterset_class = HotelFilter
     search_fields = ['name_hotel']
     ordering_fields = ['price_per_night']
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class HotelDetailViewSet(viewsets.ModelViewSet):

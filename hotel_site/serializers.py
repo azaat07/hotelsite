@@ -5,25 +5,26 @@ from .models import *
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = '__all__'
+        fields = ['age', 'phone_number', 'status']
 
 
 class HotelImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = HotelImage
-        fields = ['hotel_image']
+        fields = ['hotel', 'hotel_image']
 
 
 class RoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
-        fields = '__all__'
+        fields = ['room_number', 'capacity', 'price_per_night']
 
 
 class ImageRoomSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = ImageRoom
-        fields = '__all__'
+        fields = ['id', 'room_image']
 
 
 class BookingSerializer(serializers.ModelSerializer):
@@ -45,15 +46,17 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 
 class HotelListSerializer(serializers.ModelSerializer):
-    hotel_images = HotelImageSerializer(many=True, read_only=True)
+    status = UserProfileSerializer(many=True, read_only=True)
+
     class Meta:
         model = Hotel
-        fields = ['id', 'name_hotel', 'hotel_images', 'description', 'address', 'city', 'country']
+        fields = ['id', 'name_hotel', 'description', 'address', 'city', 'country', 'status']
 
 
 class HotelDetailSerializer(serializers.ModelSerializer):
-    hotel_image = HotelImageSerializer()
+    hotel_image = HotelImageSerializer(many=True, read_only=True)
+    rooms = RoomSerializer(many=True, read_only=True)
     class Meta:
         model = Hotel
-        fields = ['hotel_name', 'hotel_image', 'room', 'image_room/', 'description', 'address', 'city', 'country']
+        fields = ['id', 'name_hotel', 'rooms', 'hotel_image', 'description', 'address', 'city', 'country']
 
