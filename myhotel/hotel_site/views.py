@@ -3,6 +3,7 @@ from .serializers import *
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import HotelFilter
 from rest_framework.filters import SearchFilter, OrderingFilter
+from .permission import CheckOwner, CheckCRUD
 
 
 class UserProfileViewSet(viewsets.ModelViewSet):
@@ -17,7 +18,7 @@ class HotelListViewSet(viewsets.ModelViewSet):
     filterset_class = HotelFilter
     search_fields = ['name_hotel']
     ordering_fields = ['price_per_night']
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [CheckCRUD]
 
 
 class HotelDetailViewSet(viewsets.ModelViewSet):
@@ -30,9 +31,16 @@ class HotelImageViewSet(viewsets.ModelViewSet):
     serializer_class = HotelImageSerializer
 
 
-class RoomViewSet(viewsets.ModelViewSet):
+class RoomListViewSet(viewsets.ModelViewSet):
     queryset = Room.objects.all()
-    serializer_class = RoomSerializer
+    serializer_class = RoomListSerializer
+    permission_classes = [CheckCRUD]
+
+
+class RoomDetailViewSet(viewsets.ModelViewSet):
+    queryset = Room.objects.all()
+    serializer_class = RoomDetailSerializer
+    permission_classes = [CheckCRUD]
 
 
 class ImageRoomViewSet(viewsets.ModelViewSet):
@@ -45,11 +53,7 @@ class BookingViewSet(viewsets.ModelViewSet):
     serializer_class = BookingSerializer
 
 
-class RatingViewSet(viewsets.ModelViewSet):
-    queryset = Rating.objects.all()
-    serializer_class = RatingSerializer
-
-
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    permission_classes = [permissions.IsAuthenticated, CheckOwner]

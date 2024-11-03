@@ -6,7 +6,7 @@ class HotelFilter(FilterSet):
     class Meta:
         model = Hotel
         fields = {
-            'name_hotel': ['exact'],
+            'hotel_name': ['exact'],
             'country': ['exact'],
             'address': ['exact'],
         }
